@@ -17,7 +17,7 @@ my_dict['list'].pop(1)
 print(my_dict['list'])
 
 # Для того, что хранится под ключом ‘dict’, добавляю элемент с ключом ('i am a tuple',) и любым значением
-my_dict['dict']['i am a tuple'] = 'gdgdfgergddh'
+my_dict['dict'][('i am a tuple',)] = 'gdgdfgergddh'
 print(my_dict['dict'])
 
 # Удаляю любой элемент
