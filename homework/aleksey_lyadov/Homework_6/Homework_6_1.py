@@ -5,5 +5,4 @@ texts = ('Etiam tincidunt neque erat, quis molestie enim imperdiet vel. '
 format_text = texts.split()
 for text in format_text:
     text_ing = 'ing' + text
-    print(text_ing, end= " ")
-
+    print(text_ing, end=" ")
