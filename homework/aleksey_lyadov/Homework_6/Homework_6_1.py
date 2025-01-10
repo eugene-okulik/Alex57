@@ -1,6 +1,8 @@
 # Задание №1
-texts = ('Etiam tincidunt neque erat, quis molestie enim imperdiet vel. '
-        'Integer urna nisl, facilisis vitae semper at, dignissim vitae libero')
+texts = ("Etiam tincidunt neque erat, "
+         "quis molestie enim imperdiet vel. "
+         "Integer urna nisl, facilisis vitae "
+         "semper at, dignissim vitae libero")
 
 format_text = texts.split()
 fin_text = []
@@ -11,5 +13,3 @@ for text in format_text:
         fin_text.append(text + 'ing')
 join_text = ' '.join(fin_text)
 print(join_text)
-
-
