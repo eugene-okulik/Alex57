@@ -16,3 +16,21 @@ def fin_summ(*args):
 
 
 print(fin_summ(a_int, b_int, c_int, d_int))
+
+# Более правильный код будет выглядеть так,
+# тут избавляемся от повторений переменных со split с помощью цикла
+str1 = 'результат операции: 42'
+str2 = 'результат операции: 54'
+str3 = 'результат работы программы: 209'
+str4 = 'результат: 2'
+
+
+def finn_summ(*args):
+    nums = []
+    for num in args:
+        nums.append(int(num.split(': ')[1]))
+    add_num = 10
+    return ' '.join(str(x + add_num) for x in nums)
+
+
+print(fin_summ(str1, str2, str3, str4))
