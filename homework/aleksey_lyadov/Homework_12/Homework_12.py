@@ -90,8 +90,8 @@ class Bouquet:
 
     def __str__(self):
         bouquet_details = ", ".join(str(flower) for flower in self.flowers)
-        return f'Среднее время увядания: {int(
-            self.average_lifespan())} дней\n{bouquet_details}'
+        return (f'Среднее время увядания: '
+                f'{int(self.average_lifespan())} дней\n{bouquet_details}')
 
 
 # Создание экземпляров цветов
