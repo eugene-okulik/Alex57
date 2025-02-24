@@ -1,5 +1,4 @@
 # Создание классов цветы
-from operator import attrgetter
 
 
 class Flowers:
@@ -14,6 +13,12 @@ class Flowers:
     def __str__(self):
         return (f"{self.name} Цена: {self.cost} руб., Время жизни: "
                 f"{self.lifespan} дней, Длина стебля: {self.stem_length}см")
+
+    def __repr__(self):
+        return (f'Сортированные значения: ('
+                f'name={self.name}, colour={self.colour}, '
+                f'stem_length={self.stem_length}, '
+                f'lifespan={self.lifespan}, cost={self.cost})')
 
     @property
     def colour(self):
@@ -62,10 +67,11 @@ class Bouquet:
         total_lifespan = sum(flower.lifespan for flower in self.flowers)
         return total_lifespan / len(self.flowers) if self.flowers else 0
 
-    def __sort(self):
-        sorted_bouquet = sorted(self.flowers, key=attrgetter(
-            'name', 'colour', 'cost', 'stem_length', 'lifespan'))
-        return [str(flower) for flower in sorted_bouquet]
+    def __sort(self, sorted_bouquet):
+        if (sorted_bouquet in
+                ['name', 'colour', 'cost', 'stem_length', 'lifespan']):
+            return sorted(
+                self.flowers, key=lambda x: getattr(x, sorted_bouquet))
 
     def __find_flowers_by_lifespan(self, lifespan):
         found_flowers = [flower for flower in
@@ -105,5 +111,5 @@ bouquet.add_flower(rose)
 bouquet.add_flower(tulip)
 bouquet.add_flower(daisy)
 print(bouquet)
-print(bouquet.sort())
+print(bouquet.sort('colour'))
 print(bouquet.find_flowers_by_lifespan(5))
