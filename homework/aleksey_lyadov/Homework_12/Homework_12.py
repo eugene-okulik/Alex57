@@ -15,10 +15,9 @@ class Flowers:
                 f"{self.lifespan} дней, Длина стебля: {self.stem_length}см")
 
     def __repr__(self):
-        return (f'Сортированные значения: ('
-                f'name={self.name}, colour={self.colour}, '
+        return (f'name={self.name}, colour={self.colour}, '
                 f'stem_length={self.stem_length}, '
-                f'lifespan={self.lifespan}, cost={self.cost})')
+                f'lifespan={self.lifespan}, cost={self.cost}')
 
     @property
     def colour(self):
@@ -76,7 +75,7 @@ class Bouquet:
     def __find_flowers_by_lifespan(self, lifespan):
         found_flowers = [flower for flower in
                          self.flowers if flower.lifespan == lifespan]
-        return [str(flower) for flower in found_flowers]
+        return found_flowers
 
     @property
     def add_flower(self):
