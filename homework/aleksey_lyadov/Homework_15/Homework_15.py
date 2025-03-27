@@ -39,8 +39,10 @@ id_groups = cursor.lastrowid
 print(f"Создана группа с ID: {id_groups}")
 
 # Обновите своего студента
+update_student = \
+    'UPDATE students SET group_id = %s WHERE id = %s'
 cursor.execute(
-    f'UPDATE students SET group_id = {id_groups} WHERE id = {id_students}')
+    update_student, (id_groups, id_students))
 print("Студент обновлен с указанием группы")
 
 # Создайте несколько учебных предметов (subjects)
@@ -53,15 +55,17 @@ id_subjets2 = cursor.lastrowid
 print(f"Создан предмет 'SQLtest course' с ID: {id_subjets2}")
 
 # Создайте по два занятия для каждого предмета (lessons)
-cursor.execute(
-    f"INSERT INTO lessons (title, subject_id) "
-    f"VALUES ('Lesson 14 python', {id_subjets1})")
+add_lessons1 = (
+    "INSERT INTO lessons (title, subject_id) "
+    "VALUES ('Lesson 14 python', %s)")
+cursor.execute(add_lessons1, (id_subjets1,))
 id_lessons1 = cursor.lastrowid
 print(f"Создано занятие 'Lesson 14 python' с ID: {id_lessons1}")
 
-cursor.execute(
-    f"INSERT INTO lessons (title, subject_id) "
-    f"VALUES ('Lesson 14 sql', {id_subjets2})")
+add_lessons2 = (
+    "INSERT INTO lessons (title, subject_id) "
+    "VALUES ('Lesson 14 sql', %s)")
+cursor.execute(add_lessons2, (id_subjets2,))
 id_lessons2 = cursor.lastrowid
 print(f"Создано занятие 'Lesson 14 sql' с ID: {id_lessons2}")
 
@@ -77,18 +81,20 @@ print("Добавлены оценки для студента")
 
 # Получите информацию из базы данных:
 # Все оценки студента
-cursor.execute(
-    f'SELECT marks.value FROM marks '
-    f'WHERE student_id = {id_students}')
+select_marks = (
+    'SELECT marks.value FROM marks '
+    'WHERE student_id = %s')
+cursor.execute(select_marks, (id_students,))
 marks = cursor.fetchall()
 print("\nОценки студента:")
 for mark in marks:
     print(f"Оценка: {mark['value']}")
 
 # Все книги, которые находятся у студента
-cursor.execute(
-    f'SELECT books.title FROM books '
-    f'WHERE taken_by_student_id = {id_students}')
+select_books = (
+    'SELECT books.title FROM books '
+    'WHERE taken_by_student_id = %s')
+cursor.execute(select_books, (id_students,))
 books = cursor.fetchall()
 print("\nКниги студента:")
 for book in books:
@@ -98,7 +104,7 @@ for book in books:
 # что о нем есть в базе: группа, книги,
 # оценки с названиями занятий и предметов
 # (всё одним запросом с использованием Join)
-join_students = f'''
+join_students = '''
 SELECT DISTINCT s.name, s.second_name, g.title AS group_title,
                 b.title AS book_title, m.value, l.title AS lesson_title,
                 sub.title AS subject_title
@@ -108,9 +114,9 @@ INNER JOIN `groups` g ON g.id = s.group_id
 INNER JOIN marks m ON m.student_id = s.id
 INNER JOIN lessons l ON l.id = m.lesson_id
 INNER JOIN subjets sub ON sub.id = l.subject_id
-WHERE s.id = {id_students};
+WHERE s.id = %s;
 '''
-cursor.execute(join_students)
+cursor.execute(join_students, (id_students,))
 student_info = cursor.fetchall()
 print("\nПолная информация о студенте:")
 for info in student_info:
