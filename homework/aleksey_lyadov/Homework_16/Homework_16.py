@@ -58,8 +58,8 @@ for item in data:
         missing_in_join.append(item)
 
 if missing_in_join:
-    print("В data_join отсутствуют:")
+    print("В print_join отсутствуют:")
     for item in missing_in_join:
         print(item)
 else:
-    print("Все данные из data есть в data_join")
+    print("Все данные из data есть в print_join")
