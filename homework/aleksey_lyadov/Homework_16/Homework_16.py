@@ -18,10 +18,6 @@ db = mysql.connect(
 
 cursor = db.cursor(dictionary=True)
 
-# cursor.execute('select * from students')
-# dbs = cursor.fetchall()
-# print(dbs)
-
 base_way = os.path.dirname(__file__)
 homework_way = os.path.dirname(os.path.dirname(base_way))
 csv_data = os.path.join(
