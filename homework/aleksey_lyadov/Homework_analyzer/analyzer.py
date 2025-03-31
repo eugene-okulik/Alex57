@@ -1,69 +1,63 @@
 import os
-import re
+import argparse
 
 
-def find_text_in_files():
-    while True:
-        folder_path = input('Укажите полный путь к папке с логами: ').strip()
-        search_text = input('Введите текст для поиска: ').strip()
-        break
-    # поиск без учёта регистра
-    search_pattern = re.compile(re.escape(search_text), re.IGNORECASE)
+def setup_argparse():
+    """Настройка парсера аргументов командной строки"""
+    parser = argparse.ArgumentParser(
+        description='Анализатор лог-файлов: поиск текста с контекстом',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    # поиск всех файлов в переданной директории
+    parser.add_argument(
+        'path',
+        help='Путь к папке с лог-файлами')
+    parser.add_argument(
+        '--text', '-t',
+        required=True,
+        help='Текст для поиска (регистр не учитывается)')
+    parser.add_argument(
+        '--context', '-c',
+        type=int,
+        default=5,
+        help='Количество слов контекста с каждой стороны')
+
+    return parser.parse_args()
+
+
+def find_text_in_files(folder_path, search_text, context_size):
+    """Основная функция поиска текста в файлах"""
+
     for filename in os.listdir(folder_path):
         file_path = os.path.join(folder_path, filename)
         try:
-            with open(file_path, 'r') as file:
-                # перебирает строки файла, нумеруя их начиная с 1
-                for line_num, line in enumerate(file, 1):
-                    matches = list(search_pattern.finditer(line))
-                    if not matches:
-                        continue
-
-                    # Разбиваем строку на слова с сохранением позиций
-                    words = []
-                    # Ищем только слова
-                    for m in re.finditer(r'\b(\w+)\b', line):
-                        words.append((m.start(), m.end(), m.group()))
-
-                    for match in matches:
-                        start_pos = match.start()
-
-                        # Находим индекс слова, содержащего совпадение
-                        match_word_idx = next(
-                            (i for i, (w_start, w_end, _) in enumerate(words)
-                             if w_start <= start_pos < w_end), -1)
-
-                        if match_word_idx == -1:
-                            continue
-
-                        # Определяем диапазон слов для контекста
-                        start_idx = max(0, match_word_idx - 5)
-                        # +1 для включения 5 слов после
-                        end_idx = min(len(words), match_word_idx + 6)
-
-                        # Собираем контекст с сохранением
-                        # оригинальных пробелов между словами
-                        context_parts = [words[start_idx][2]]
-
-                        # Добавляем остальные слова с пробелами между ними
-                        for i in range(start_idx + 1, end_idx):
-                            prev_end = words[i - 1][1]
-                            curr_start = words[i][0]
-                            # Пробелы между словами
-                            context_parts.append(line[prev_end:curr_start])
-                            context_parts.append(words[i][2])  # Само слово
-
-                        context = ''.join(context_parts).strip()
-
-                        print(f"\nФайл: {filename}, Строка {line_num}")
-                        print(f"Контекст: ...{context}...")
-
+            with open(file_path, 'r', encoding='utf-8') as file:
+                process_file(file, filename, search_text, context_size)
         except IOError as e:
             print(f"\nОшибка чтения файла {filename}: {e}")
         except Exception as e:
             print(f"\nОшибка обработки файла {filename}: {e}")
 
 
-find_text_in_files()
+def process_file(file, filename, search_text, context_size):
+    """Обрабатывает один файл"""
+    search_lower = search_text.lower()
+
+    for line_num, line in enumerate(file, 1):
+        words = line.split()
+        for i, word in enumerate(words):
+            if search_lower in word.lower():
+                start_idx = max(0, i - context_size)
+                end_idx = min(len(words), i + context_size + 1)
+                context = ' '.join(words[start_idx:end_idx])
+                print(f"\nФайл: {filename}, Строка {line_num}")
+                print(f"Контекст: ...{context}...")
+
+
+if __name__ == "__main__":
+    args = setup_argparse()
+
+    if not os.path.isdir(args.path):
+        print(f"Ошибка: {args.path} не является папкой!")
+        exit(1)
+
+    find_text_in_files(args.path, args.text, args.context)
