@@ -19,6 +19,19 @@ def text_before():
 def test_all_obj(text_testing):
     response = requests.get(
         'http://167.172.172.115:52353/object').json()
+    # Проверяем, что ответ содержит поле 'data' и это список
+    assert 'data' in response, \
+        "Response doesn't contain 'data' field"
+    assert isinstance(response['data'], list), \
+        "'data' is not a list"
+    # Для каждого объекта в data проверяем наличие обязательных полей
+    for obj in response['data']:
+        assert 'id' in obj, \
+            f"Object missing 'id' field: {obj}"
+        assert 'name' in obj, \
+            f"Object missing 'name' field: {obj}"
+        assert 'data' in obj, \
+            f"Object missing 'data' field: {obj}"
     print(response)
 
 
@@ -26,6 +39,11 @@ def test_one_obj():
     obj_id = 5004
     response = requests.get(
         f'http://167.172.172.115:52353/object/{obj_id}').json()
+    # Проверяем, что 'id' есть в ответе и он равен obj_id
+    assert 'id' in response, \
+        f"Response missing 'id' field: {response}"
+    assert response['id'] == obj_id, \
+        f"Expected id={obj_id}, but got {response['id']}"
     print(response)
 
 
@@ -39,26 +57,43 @@ def test_post_obj():
             }
     response = requests.post(
         'http://167.172.172.115:52353/object', json=body).json()
+    assert response['name'] == body['name'], \
+        f"Expected name {body['name']}, but got {response['name']}"
+    assert response['data']['color'] == body['data']['color'], \
+        (f"Expected color {body['data']['color']}, "
+         f"but got {response['data']['color']}")
+    assert response['data']['size'] == body['data']['size'], \
+        (f"Expected size {body['data']['size']}, "
+         f"but got {response['data']['size']}")
     print(response)
 
 
 @pytest.fixture()
 def new_obj():
-    body = {"name": "homework18_test",
+    body = {"name": "homework18_test222222222",
             "data": {
-                "color": "test_homework18_color2",
-                "size": "test_homework18_size2"
+                "color": "test_homework18_color33333333333",
+                "size": "test_homework18_size444444444"
             }
             }
     response = requests.post(
         'http://167.172.172.115:52353/object', json=body).json()
+    assert response['name'] == body['name'], \
+        f"Expected name {body['name']}, but got {response['name']}"
+    assert response['data']['color'] == body['data']['color'], \
+        (f"Expected color {body['data']['color']}, "
+         f"but got {response['data']['color']}")
+    assert response['data']['size'] == body['data']['size'], \
+        (f"Expected size {body['data']['size']}, "
+         f"but got {response['data']['size']}")
+    print(response)
     return response['id']
 
 
 @pytest.mark.parametrize("name, color, size", [
-    ("homework18_test1", "test_homework18_color1", "test_homework18_size1"),
-    ("homework18_test2", "test_homework18_color2", "test_homework18_size2"),
-    ("homework18_test3", "test_homework18_color3", "test_homework18_size3")
+    ("homework18_test11", "test_homework18_color11", "test_homework18_size11"),
+    ("homework18_test22", "test_homework18_color22", "test_homework18_size22"),
+    ("homework18_test33", "test_homework18_color33", "test_homework18_size33")
 ])
 def test_new_obj(name, color, size):
     body = {
@@ -83,23 +118,41 @@ def test_put_obj(new_obj):
             }
             }
     response = requests.put(
-        f'http://167.172.172.115:52353/object/{new_obj}', json=body)
-    print(response.json())
+        f'http://167.172.172.115:52353/object/{new_obj}', json=body).json()
+    assert response['name'] == body['name'], \
+        f"Expected name {body['name']}, but got {response['name']}"
+    assert response['data']['color'] == body['data']['color'], \
+        (f"Expected color {body['data']['color']}, "
+         f"but got {response['data']['color']}")
+    assert response['data']['size'] == body['data']['size'], \
+        (f"Expected size {body['data']['size']}, "
+         f"but got {response['data']['size']}")
+    print(response)
 
 
 def test_patch_obj(new_obj):
-    body = {"name": "homework1812313",
+    body = {"name": "homework181231311111",
             "data": {
-                "color": "113131homework18_color2",
-                "size": "1313133homework18_size2"
+                "color": "113131homework18_color11112",
+                "size": "1313133homework18_size11112"
             }
             }
     response = requests.patch(
-        f'http://167.172.172.115:52353/object/{new_obj}', json=body)
-    print(response.json())
+        f'http://167.172.172.115:52353/object/{new_obj}', json=body).json()
+    assert response['name'] == body['name'], \
+        f"Expected name {body['name']}, but got {response['name']}"
+    assert response['data']['color'] == body['data']['color'], \
+        (f"Expected color {body['data']['color']}, "
+         f"but got {response['data']['color']}")
+    assert response['data']['size'] == body['data']['size'], \
+        (f"Expected size {body['data']['size']}, "
+         f"but got {response['data']['size']}")
+    print(response)
 
 
 def test_delete_obj(new_obj):
     response = requests.delete(
         f'http://167.172.172.115:52353/object/{new_obj}')
+    assert response.status_code == 200, \
+        f"Failed status code {response.status_code}"
     print(response.status_code)
