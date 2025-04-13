@@ -73,6 +73,7 @@ def test_new_obj(name, color, size):
     assert "id" in response
     print(response["id"])
 
+
 @pytest.mark.medium
 def test_put_obj(new_obj):
     body = {"name": "homework1812313",
