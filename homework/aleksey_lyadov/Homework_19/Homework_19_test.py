@@ -35,39 +35,6 @@ def test_all_obj(text_testing):
     print(response)
 
 
-def test_one_obj():
-    obj_id = 5004
-    response = requests.get(
-        f'http://167.172.172.115:52353/object/{obj_id}').json()
-    # Проверяем, что 'id' есть в ответе и он равен obj_id
-    assert 'id' in response, \
-        f"Response missing 'id' field: {response}"
-    assert response['id'] == obj_id, \
-        f"Expected id={obj_id}, but got {response['id']}"
-    print(response)
-
-
-@pytest.mark.critical
-def test_post_obj():
-    body = {"name": "homework18_test",
-            "data": {
-                "color": "test_homework18_color2",
-                "size": "test_homework18_size2"
-            }
-            }
-    response = requests.post(
-        'http://167.172.172.115:52353/object', json=body).json()
-    assert response['name'] == body['name'], \
-        f"Expected name {body['name']}, but got {response['name']}"
-    assert response['data']['color'] == body['data']['color'], \
-        (f"Expected color {body['data']['color']}, "
-         f"but got {response['data']['color']}")
-    assert response['data']['size'] == body['data']['size'], \
-        (f"Expected size {body['data']['size']}, "
-         f"but got {response['data']['size']}")
-    print(response)
-
-
 @pytest.fixture()
 def new_obj():
     body = {"name": "homework18_test222222222",
@@ -90,6 +57,18 @@ def new_obj():
     return response['id']
 
 
+def test_one_obj(new_obj):
+    response = requests.get(
+        f'http://167.172.172.115:52353/object/{new_obj}').json()
+    # Проверяем, что 'id' есть в ответе и он равен obj_id
+    assert 'id' in response, \
+        f"Response missing 'id' field: {response}"
+    assert response['id'] == new_obj, \
+        f"Expected id={new_obj}, but got {response['id']}"
+    print(response)
+
+
+@pytest.mark.critical
 @pytest.mark.parametrize("name, color, size", [
     ("homework18_test11", "test_homework18_color11", "test_homework18_size11"),
     ("homework18_test22", "test_homework18_color22", "test_homework18_size22"),
