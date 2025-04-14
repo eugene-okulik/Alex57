@@ -85,6 +85,14 @@ def test_new_obj(name, color, size):
     response = requests.post(
         'http://167.172.172.115:52353/object', json=body).json()
     assert "id" in response
+    assert response['name'] == body['name'], \
+        f"Expected name {body['name']}, but got {response['name']}"
+    assert response['data']['color'] == body['data']['color'], \
+        (f"Expected color {body['data']['color']}, "
+         f"but got {response['data']['color']}")
+    assert response['data']['size'] == body['data']['size'], \
+        (f"Expected size {body['data']['size']}, "
+         f"but got {response['data']['size']}")
     print(response["id"])
 
 
