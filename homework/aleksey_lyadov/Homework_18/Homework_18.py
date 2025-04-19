@@ -1,4 +1,5 @@
 import requests
+import allure
 
 
 def all_obj():
