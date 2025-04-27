@@ -44,4 +44,3 @@ def patch_obj():
 @pytest.fixture()
 def delete_obj():
     return UpdateDelete()
-
