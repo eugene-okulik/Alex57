@@ -3,7 +3,7 @@ import allure
 from endpoints.endpoint import Endpoint
 
 
-class CreateGet(Endpoint):
+class UpdateGet(Endpoint):
 
     @allure.step('Вызов get запроса со всеми объектами')
     def challenge_all_obj(self):

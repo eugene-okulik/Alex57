@@ -9,7 +9,7 @@ from endpoints.create_post import CreatePost
 @pytest.mark.critical
 @pytest.mark.parametrize("name, color, size", CreatePost().TEST_DATA)
 def test_new_obj(name, color, size, create_new_obj):
-    create_new_obj.create_new_post(
+    create_new_obj.generate_new_objects(
         create_new_obj.create_body(name, color, size))
     create_new_obj.check_status_is_200()
     create_new_obj.check_id_in_response()

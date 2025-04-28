@@ -1,10 +1,10 @@
 import pytest
 import requests
 from endpoints.create_post import CreatePost
-from endpoints.create_get import CreateGet
 from endpoints.update_put import UpdatePut
 from endpoints.update_patch import UpdatePatch
 from endpoints.update_delete import UpdateDelete
+from endpoints.update_get import UpdateGet
 
 
 @pytest.fixture()
@@ -14,7 +14,7 @@ def create_new_obj():
 
 @pytest.fixture()
 def get_all_obj():
-    return CreateGet()
+    return UpdateGet()
 
 
 @pytest.fixture()
@@ -25,10 +25,13 @@ def new_obj():
                 "size": "test_homework18_size444444444"
             }
             }
-    response = requests.post(
-        'http://167.172.172.115:52353/object', json=body).json()
-    print(response)
-    return response['id']
+    response = CreatePost().generate_new_objects(body)
+    response_data = response.json()
+    obj_id = response_data['id']
+    print(f"Created object with ID: {obj_id}")
+    yield response_data['id']
+    print(f"Deleting object with ID: {obj_id}")
+    UpdateDelete().update_obj_delete(obj_id)
 
 
 @pytest.fixture()

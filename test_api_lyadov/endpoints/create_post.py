@@ -27,7 +27,7 @@ class CreatePost(Endpoint):
 
     @allure.step('Вызов post запроса с передачей '
                  'в него параметров из переменной body')
-    def create_new_post(self, body):
+    def generate_new_objects(self, body):
         self.response = requests.post(self.url, json=body)
         self.json = self.response.json()
         return self.response
