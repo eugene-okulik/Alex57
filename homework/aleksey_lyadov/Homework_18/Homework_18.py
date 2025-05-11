@@ -1,7 +1,6 @@
 import requests
 
 
-
 def all_obj():
     response = requests.get(
         'http://167.172.172.115:52353/object').json()
