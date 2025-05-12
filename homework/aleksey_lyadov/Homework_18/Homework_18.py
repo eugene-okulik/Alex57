@@ -1,5 +1,4 @@
 import requests
-import allure
 
 
 def all_obj():
@@ -11,7 +10,7 @@ def all_obj():
 def one_obj():
     obj_id = 544
     response = requests.get(
-        f'http://167.172.172.115:52353/object/{obj_id}').json()
+        f'http://167.172.172.115:52353/object/{obj_id}')
     print(response)
 
 

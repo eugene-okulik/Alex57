@@ -6,6 +6,5 @@ venv
 __pycache__
 credentials.py
 .env
-requirements.txt
 allure-results
 allure-report
