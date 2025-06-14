@@ -55,7 +55,8 @@ def test_fill_form(driver):
             By.CSS_SELECTOR, 'div[id="state"]'))).click()
     WebDriverWait(driver, 10).until(
          EC.presence_of_element_located(
-             (By.XPATH, '//*[@id="react-select-3-option-0"]'))).click()
+             (By.XPATH, '//*[@id="react-select-3-option-0"]'))
+    ).click()
     WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((
             By.CSS_SELECTOR, 'div[id="city"]'))).click()
@@ -63,5 +64,6 @@ def test_fill_form(driver):
         EC.presence_of_element_located((
             By.XPATH, '//*[@id="react-select-4-option-0"]'))).click()
     driver.find_element(By.ID, 'submit').click()
-    form_text = driver.find_element(By.CLASS_NAME, 'modal-body').get_attribute('innerText')
+    form_text = driver.find_element(
+        By.CLASS_NAME, 'modal-body').get_attribute('innerText')
     print(form_text)
