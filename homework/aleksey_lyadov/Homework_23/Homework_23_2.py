@@ -54,9 +54,9 @@ def test_fill_form(driver):
         EC.visibility_of_element_located((
             By.CSS_SELECTOR, 'div[id="state"]'))).click()
     WebDriverWait(driver, 10).until(
-         EC.presence_of_element_located(
-             (By.XPATH, '//*[@id="react-select-3-option-0"]'))
-    ).click()
+        EC.presence_of_element_located((
+            By.XPATH,
+            '//*[@id="react-select-3-option-0"]'))).click()
     WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((
             By.CSS_SELECTOR, 'div[id="city"]'))).click()
