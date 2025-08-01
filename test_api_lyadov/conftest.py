@@ -1,5 +1,4 @@
 import pytest
-import requests
 from endpoints.create_post import CreatePost
 from endpoints.update_put import UpdatePut
 from endpoints.update_patch import UpdatePatch
