@@ -38,7 +38,8 @@ class SalePage(BasePage):
         self.page.wait_for_timeout(1000)
         products = self.find(loc.product_item_link_loc).first
         expect(products).to_be_visible()
-        expect(self.quantity_items).to_have_text(self.number_item_products_one_page)
+        expect(self.quantity_items).to_have_text(
+            self.number_item_products_one_page)
 
     def click_page_gear(self):
         link_gear_steals = self.find(loc.link_gear_steals_loc)
@@ -73,7 +74,8 @@ class SalePage(BasePage):
         link_fitness_equipment.hover()
         link_fitness_equipment.click()
         text_page_fitness_equipment = self.find(loc.base_loc).inner_text()
-        expect(link_fitness_equipment).to_have_text(text_page_fitness_equipment)
+        expect(link_fitness_equipment).to_have_text(
+            text_page_fitness_equipment)
 
     def click_page_watches(self):
         menu_gear = self.find(loc.menu_gear_loc)

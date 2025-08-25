@@ -72,7 +72,8 @@ class EcoFriendlyPage(BasePage):
         self.page.wait_for_timeout(1000)
         self.text_one_page = self.find(loc.text_one_page_loc)
         button_add_wish_list = self.find(loc.button_add_wish_list_loc)
-        expect(button_add_wish_list).to_have_attribute('title', 'Add to Wish List')
+        expect(button_add_wish_list).to_have_attribute(
+            'title', 'Add to Wish List')
         button_add_wish_list.click(force=True)
         text_page_login = self.find(
             loc.text_page_login_loc)

@@ -7,7 +7,9 @@ class CustomerAccount(BasePage):
 
     page_url = '/customer/account/create/'
 
-    def fill_login_form(self, first_name, last_name, password, confirm_password, email=None):
+    def fill_login_form(
+            self, first_name, last_name,
+            password, confirm_password, email=None):
         field_first_name = self.find(loc.field_first_name_loc)
         field_last_name = self.find(loc.field_last_name_loc)
         email_address = self.find(loc.email_address_loc)
