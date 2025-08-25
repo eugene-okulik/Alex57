@@ -1,5 +1,3 @@
-
-
 base_loc = '.base'
 text_categories_menu_loc = '.categories-menu'
 text_page_women_sale_loc = 'text="Women Sale"'
@@ -12,6 +10,7 @@ link_fitness_equipment_loc = '#ui-id-26'
 link_watches_loc = '#ui-id-27'
 item_products_one_page_loc = '.product-item-link'
 product_item_link_loc = '.product-item-link'
-quantity_items_loc = 'xpath=(//span[@class="toolbar-number"][normalize-space()="14"])[1]'
+quantity_items_loc = \
+    'xpath=(//span[@class="toolbar-number"][normalize-space()="14"])[1]'
 sidebar_sidebar_main_loc = '.sidebar.sidebar-main'
 text_menu_loc = '.sidebar.sidebar-main'

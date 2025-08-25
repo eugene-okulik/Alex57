@@ -1,5 +1,3 @@
-
-
 choice_bella_tank_loc = '[alt="Bella Tank"]'
 text_one_page_loc = 'text="Bella Tank"'
 size_loc = '#option-label-size-143-item-167'
